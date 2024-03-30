@@ -1,7 +1,6 @@
 print("loading libraries")
 import pyart
 import fsspec
-from metpy.plots import USCOUNTIES
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -29,7 +28,7 @@ plt.rcParams["figure.figsize"] = (12, 8)
 
 
 
-
+# Load in the shapefiles
 reader1 = shpreader.Reader("/path/to/shp")
 reader2 = shpreader.Reader("/path/to/shp")
 reader3 = shpreader.Reader("/path/to/shp")
@@ -51,7 +50,7 @@ LAKES = cfeature.ShapelyFeature(lakes, ccrs.PlateCarree())
 
 
 
-
+# Retrieve town names from the .csv file
 
 def get_places(xmin, xmax, ymin, ymax):
     with open('/path/to/csv', 'r', encoding='windows-1252') as fp:
@@ -74,7 +73,7 @@ def get_places(xmin, xmax, ymin, ymax):
 
 dx = 1
 dy = 1
-
+# Load in your nexrad L2 file
 NEXRADLevel2File = ("path/to/nexrad/data/or/otherwise")
 radar = pyart.io.read_nexrad_archive(NEXRADLevel2File)
 
@@ -93,12 +92,14 @@ places = get_places(xmin, xmax, ymin, ymax)
 
 fig = plt.figure()
 
+ # Load in the radar coordinates, working on an automatic import to eliminate manual input :) 
 radar_lat = radar.latitude['data'] = np.array([37.654])
 radar_lon = radar.longitude['data'] = np.array([-97.443])
 radar_name = radar.metadata['instrument_name']
 
 vcp = radar.metadata['vcp_pattern']
 
+# Apply a nice gatefilter and implement the region dealias algorithm
 gatefilter = pyart.filters.GateFilter(radar)
 gatefilter.exclude_transition()
 gatefilter.exclude_invalid("velocity")
@@ -119,7 +120,7 @@ formatted_date = time_at_start_of_radar.strftime('%m-%d-%Y %H:%MZ')
 print("Grabbing places, dealiasing data...")
 
 
-
+# Get slices for a NEXRAD files various moments and variables 
 slice_indices = radar.get_slice(sweep)
 max_ref = radar.fields['reflectivity']['data'][slice_indices].max()
 elev_angle = (round(radar.elevation['data'][slice_indices].mean(), 2))
@@ -135,7 +136,7 @@ elev_angle = (round(radar.elevation['data'][slice_indices].mean(), 2))
 deg_sign = u'\N{DEGREE SIGN}'
 
 
-
+# Begin the plot!
 ax1 = fig.add_subplot(111, projection=ccrs.PlateCarree())
 ax1.add_feature(INTERSTATES, facecolor='none', edgecolor='yellow')
 ax1.add_feature(COUNTIES, facecolor='none', edgecolor='red') 
@@ -215,6 +216,7 @@ for i in max_values:
 
 display.plot_point(radar.longitude['data'][0], radar.latitude['data'][0],color='k',label_text=radar_name, symbol='*', markersize=10)
 
+# Do some RNG to prevent file overwriting 
 output_dir = ("/desired/path/to/folder/you/want/to/export/your/images/to")
 def generate_and_save_random_png(output_dir):
     # Generate a random filename for the PNG file
@@ -229,3 +231,5 @@ def generate_and_save_random_png(output_dir):
 output_directory = "/desired/path/you/want"
 
 generate_and_save_random_png(output_directory)
+
+plt.show()
