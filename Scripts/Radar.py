@@ -161,7 +161,8 @@ for p in range(0, len(locations)):
     lon = float(locations[p][1])
     plt.plot(lon, lat, '+', color='white', markersize=10, transform=ccrs.PlateCarree(), zorder=10)
     text_offset = 0.03  
-    plt.text(lon + text_offset, lat, place, horizontalalignment='left', verticalalignment='center', transform=ccrs.PlateCarree())
+    if lon < ax1.get_xlim()[1] and lon > ax1.get_xlim()[0] and lat < ax1.get_ylim()[1] and lat > ax1.get_ylim()[0]:
+        plt.text(lon + text_offset, lat, place, horizontalalignment='left', verticalalignment='center', transform=ccrs.PlateCarree())
 
 display.plot_range_ring(50., linestyle='dashed', color='gainsboro', lw=1)
 display.plot_range_ring(150., linestyle='solid', color='gainsboro', lw=1)
