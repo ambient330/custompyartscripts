@@ -151,9 +151,9 @@ ref_map = display.plot_ppi_map('reflectivity',
                                cmap='pyart_ChaseSpectral',
                                colorbar_label='', title='', colorbar_flag=False, lat_lines=[0], lon_lines=[0], 
                                lat_0=rda_lat, lon_0=rda_lon)
-
-plt.xlim(-97.50, -96.90)
-plt.ylim(37.50, 37.87)
+# Grab some coordinates to create the plot limits
+plt.xlim()
+plt.ylim()
 
 for p in range(0, len(locations)):
     place = locations[p][0]
