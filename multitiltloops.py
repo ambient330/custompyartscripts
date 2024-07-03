@@ -113,7 +113,6 @@ def plot_radar(radar, display, sweep_idx):
     ax.set_title('Reflectivity - Max: ' + str(max_ref) + 'dBZ', fontsize=11, loc='left', fontweight='bold')
     ax.set_title(f'{name} Low Z {ts}', fontsize=11, loc='left', fontweight='bold')
     ax.set_title(f'VCP: {vcp}', fontsize=11, loc='center', fontweight='bold') 
-    ax.set_title('Plot by @multidoppler', loc='right', fontweight='bold', fontsize='14')
     resol = '10m'
     land = cfeature.NaturalEarthFeature('physical', 'land', scale=resol, facecolor=cfeature.COLORS['land'])
     ax.add_feature(land, facecolor='#1B292E', zorder=0)
