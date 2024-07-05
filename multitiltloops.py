@@ -28,10 +28,10 @@ plt.rcParams['xtick.color'] = 'white'
 plt.rcParams['ytick.color'] = 'white'
 plt.rcParams["figure.figsize"] = (12, 8)
 
-reader1 = shpreader.Reader("/mnt/c/Users/micha/Desktop/tl_2022_us_primaryroads/tl_2022_us_primaryroads.shp")
-reader2 = shpreader.Reader("/mnt/c/users/micha/desktop/GPK.SHP.cb_2013_us_county_500k_wgs84/cb_2013_us_county_500k_wgs84.shp")
-reader3 = shpreader.Reader("/mnt/c/users/micha/desktop/borders/InternationalBorders.shp")
-reader4 = shpreader.Reader("/mnt/c/users/micha/desktop/lakes/ne_10m_lakes.shp")
+reader1 = shpreader.Reader("/path/to/shapefile")
+reader2 = shpreader.Reader("/path/to/shapefile")
+reader3 = shpreader.Reader("/path/to/shapefile")
+reader4 = shpreader.Reader("/path/to/shapefile")
 
 interstates = list(reader1.geometries())
 INTERSTATES = cfeature.ShapelyFeature(interstates, ccrs.PlateCarree())
